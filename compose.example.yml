@@ -1,0 +1,37 @@
+services:
+  domiq-mqtt:
+    image: ghcr.io/michaljonik/domiq-mqtt:0.1.0
+    restart: unless-stopped
+    environment:
+      DOMIQ_HOST: 192.0.2.10          # DOMIQ Base on the local network
+      DOMIQ_PORT: 4224
+      MQTT_HOST: mosquitto
+      MQTT_USERNAME: domiq
+      MQTT_PASSWORD_FILE: /run/secrets/mqtt_password
+    secrets:
+      - mqtt_password
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    depends_on:
+      - mosquitto
+
+  mosquitto:
+    image: eclipse-mosquitto:2
+    restart: unless-stopped
+    ports:
+      - 1883:1883
+    volumes:
+      - ./mosquitto:/mosquitto/config:ro
+      - mosquitto_data:/mosquitto/data
+
+secrets:
+  mqtt_password:
+    file: ./mqtt_password.txt
+
+volumes:
+  mosquitto_data:
