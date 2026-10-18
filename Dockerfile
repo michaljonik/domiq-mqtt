@@ -3,8 +3,10 @@
 
 # The dependencies are pure Python, so the virtualenv is built once on the build machine's
 # own architecture and copied into every target image: no QEMU, no RUN in the final stage.
+FROM --platform=$BUILDPLATFORM ghcr.io/astral-sh/uv:0.12.1 AS uv
+
 FROM --platform=$BUILDPLATFORM python:3.14.8-slim AS build
-COPY --from=ghcr.io/astral-sh/uv:0.12.1 /uv /usr/local/bin/uv
+COPY --from=uv /uv /usr/local/bin/uv
 ENV UV_COMPILE_BYTECODE=1 UV_LINK_MODE=copy UV_PYTHON_DOWNLOADS=never UV_PROJECT_ENVIRONMENT=/app
 WORKDIR /src
 # dependencies first: this layer stays cached until uv.lock changes
