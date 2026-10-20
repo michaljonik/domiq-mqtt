@@ -1,0 +1,10 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-global-schema.json",
+  "platform": "github",
+  "repositories": ["michaljonik/domiq-mqtt"],
+  "gitAuthor": "Renovate (homelab) <7828380+michaljonik@users.noreply.github.com>",
+  "onboarding": false,
+  "requireConfig": "required",
+  "allowedCommands": [],
+  "dependencyDashboardTitle": "Renovate: dependency updates"
+}
