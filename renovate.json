@@ -1,0 +1,41 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": ["config:recommended", "helpers:pinGitHubActionDigests"],
+  "timezone": "Europe/Warsaw",
+  "labels": ["dependencies"],
+  "semanticCommits": "disabled",
+  "osvVulnerabilityAlerts": true,
+  "minimumReleaseAge": "3 days",
+  "minimumReleaseAgeBehaviour": "timestamp-optional",
+  "schedule": ["* 0-6 * * 1"],
+  "vulnerabilityAlerts": { "minimumReleaseAge": null, "schedule": [] },
+  "customManagers": [
+    {
+      "customType": "regex",
+      "description": "uv version in setup-uv, kept in step with the uv image in the Dockerfile",
+      "managerFilePatterns": ["/^\\.github/workflows/.+\\.ya?ml$/"],
+      "matchStrings": ["astral-sh/setup-uv@.*\\n\\s+with:\\n\\s+version: \"(?<currentValue>[0-9.]+)\""],
+      "depNameTemplate": "ghcr.io/astral-sh/uv",
+      "datasourceTemplate": "docker"
+    }
+  ],
+  "packageRules": [
+    {
+      "description": "uv in the Dockerfile and in the workflow move together",
+      "matchDatasources": ["docker"],
+      "matchPackageNames": ["ghcr.io/astral-sh/uv"],
+      "groupName": "uv"
+    },
+    {
+      "description": "Python dependencies: one pull request",
+      "matchManagers": ["pep621", "uv"],
+      "groupName": "python"
+    },
+    {
+      "description": "GitHub Actions: once a month, one pull request",
+      "matchManagers": ["github-actions"],
+      "groupName": "github-actions",
+      "schedule": ["* 0-6 1-7 * 1"]
+    }
+  ]
+}
