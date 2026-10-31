@@ -1,7 +1,6 @@
 # domiq-mqtt
 
 [![Test, Build & Push Docker Image](https://github.com/michaljonik/domiq-mqtt/actions/workflows/docker-image.yml/badge.svg)](https://github.com/michaljonik/domiq-mqtt/actions/workflows/docker-image.yml)
-[![CVE scan](https://github.com/michaljonik/domiq-mqtt/actions/workflows/cve-scan.yml/badge.svg)](https://github.com/michaljonik/domiq-mqtt/actions/workflows/cve-scan.yml)
 [![Release](https://img.shields.io/github/v/release/michaljonik/domiq-mqtt)](https://github.com/michaljonik/domiq-mqtt/releases/latest)
 [![Renovate](https://img.shields.io/badge/renovate-enabled-brightgreen?logo=renovate)](https://github.com/michaljonik/domiq-mqtt/issues?q=is%3Aissue+Renovate)
 [![License](https://img.shields.io/github/license/michaljonik/domiq-mqtt)](LICENSE)
@@ -148,8 +147,8 @@ the controller.
 
 - **Pinned inputs.** Python and uv versions are fixed in the [Dockerfile](Dockerfile),
   dependencies in `uv.lock`, GitHub Actions by digest; Renovate proposes updates.
-- **Scanned image.** A daily [CVE scan](.github/workflows/cve-scan.yml) (Grype) checks the
-  published image and reports to Security → Code scanning.
+- **Scanned image.** The published image is scanned daily for known vulnerabilities (Syft and
+  Grype) together with the rest of my self-hosted stack; fixes ship as a new release.
 - **No emulated builds.** All dependencies are pure Python, so the virtualenv is built once on
   the runner and copied into the `amd64` and `arm64` images.
 - **Releases are tags.** `v0.1.0` runs the tests and publishes the image with an SBOM and a
